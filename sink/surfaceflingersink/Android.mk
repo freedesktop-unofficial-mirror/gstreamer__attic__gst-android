@@ -26,12 +26,21 @@ LOCAL_MODULE:= libgstsurfaceflinger
 
 LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)  		\
-	$(LOCAL_PATH)/../../ 	\
-	frameworks/base/include
+	$(LOCAL_PATH)/../../
+
+ifneq ($(NDK_BUILD), true)
+LOCAL_C_INCLUDES += frameworks/base/include
+else
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../android_headers
+endif
 
 LOCAL_CFLAGS := -DANDROID_USE_GSTREAMER \
 	-DHAVE_CONFIG_H \
 	$(shell $(PKG_CONFIG) gstreamer-video-0.10 --cflags)
+
+ifeq ($(NDK_BUILD), true)
+LOCAL_LDFLAGS := -lmediaplayerservice -lsurfaceflinger -lsurfaceflinger_client -lmedia -lpixelflinger -lui -lbinder -lhardware -lcutils -lutils
+endif
 
 LOCAL_MODULE_PATH := $(TARGET_OUT)/lib/gstreamer-0.10
 LOCAL_PRELINK_MODULE := false

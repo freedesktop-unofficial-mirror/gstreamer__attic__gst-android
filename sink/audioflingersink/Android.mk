@@ -14,8 +14,13 @@ gstaudioflinger_FILES := \
 
 LOCAL_SRC_FILES := $(gstaudioflinger_FILES)
 LOCAL_C_INCLUDES = $(LOCAL_PATH) \
-	$(LOCAL_PATH)/include \
-	$(TOP)/frameworks/base
+	$(LOCAL_PATH)/include
+
+ifneq ($(NDK_BUILD), true)
+LOCAL_C_INCLUDES += $(TOP)/frameworks/base
+else
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../android_headers
+endif
 
 LOCAL_CFLAGS += -DHAVE_CONFIG_H
 LOCAL_CFLAGS += -Wall -Wdeclaration-after-statement -g -O2
@@ -38,7 +43,11 @@ LOCAL_SHARED_LIBRARIES += \
 	libgstvideo-0.10      \
 	libgstaudio-0.10
 
+ifneq ($(NDK_BUILD), true)
 LOCAL_LDFLAGS := -L$(SYSROOT)/usr/lib -llog
+else
+LOCAL_LDFLAGS := -L$(SYSROOT)/usr/lib -llog -lmedia -laudioflinger -lutils
+endif
 
 LOCAL_SHARED_LIBRARIES += \
 	libutils \
