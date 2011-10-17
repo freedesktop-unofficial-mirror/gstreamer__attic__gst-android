@@ -1,32 +1,30 @@
-LOCAL_PATH:= $(call my-dir)
+LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES:= \
-	surfaceflinger_wrap.cpp \
-	gstsurfaceflingersink.c  
-	
+    surfaceflinger_wrap.cpp \
+    gstsurfaceflingersink.c
+
 LOCAL_SHARED_LIBRARIES := \
-	libgstreamer-0.10       \
-	libglib-2.0             \
-	libgthread-2.0          \
-	libgmodule-2.0          \
-	libgobject-2.0          \
-	libgstbase-0.10         \
-	libgstvideo-0.10	\
-	libcutils               \
-	libutils                \
-	libui			\
-	libsurfaceflinger 	\
-	libsurfaceflinger_client \
-	libbinder
+    libgstreamer-0.10        \
+    libglib-2.0              \
+    libgthread-2.0           \
+    libgmodule-2.0           \
+    libgobject-2.0           \
+    libgstbase-0.10          \
+    libgstvideo-0.10         \
+    libcutils                \
+    libutils                 \
+    libui                    \
+    libsurfaceflinger        \
+    libsurfaceflinger_client \
+    libbinder
 
 LOCAL_MODULE:= libgstsurfaceflinger
 
 
-LOCAL_C_INCLUDES := \
-	$(LOCAL_PATH)  		\
-	$(LOCAL_PATH)/../../
+LOCAL_C_INCLUDES := $(LOCAL_PATH) $(LOCAL_PATH)/../../
 
 ifneq ($(NDK_BUILD), true)
 LOCAL_C_INCLUDES += frameworks/base/include
@@ -35,8 +33,8 @@ LOCAL_C_INCLUDES += $(LOCAL_PATH)/../android_headers
 endif
 
 LOCAL_CFLAGS := -DANDROID_USE_GSTREAMER \
-	-DHAVE_CONFIG_H \
-	$(shell $(PKG_CONFIG) gstreamer-video-0.10 --cflags)
+                -DHAVE_CONFIG_H         \
+                $(shell $(PKG_CONFIG) gstreamer-video-0.10 --cflags)
 
 ifeq ($(NDK_BUILD), true)
 LOCAL_LDFLAGS := -lmediaplayerservice -lsurfaceflinger -lsurfaceflinger_client -lmedia -lpixelflinger -lui -lbinder -lhardware -lcutils -lutils
