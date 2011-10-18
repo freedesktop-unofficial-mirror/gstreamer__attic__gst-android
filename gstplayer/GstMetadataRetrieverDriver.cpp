@@ -657,7 +657,7 @@ GstMetadataRetrieverDriver::getCaptureFrame (guint8 ** data)
       if (*data) delete[] * data;
       *data = new guint8[GST_BUFFER_SIZE (frame)];
       memcpy (*data, GST_BUFFER_DATA (frame), GST_BUFFER_SIZE (frame));
-      gst_object_unref (frame);
+      gst_buffer_unref (frame);
     }
     gst_object_unref (GST_OBJECT (sink));
   }
