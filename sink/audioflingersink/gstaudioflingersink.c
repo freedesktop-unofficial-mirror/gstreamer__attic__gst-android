@@ -19,7 +19,7 @@
  */
 
 /**
- * SECTION:element-audioflindersink
+ * SECTION:element-audioflingersink
  *
  * This element lets you output sound using the Audio Flinger system in Android
  *
@@ -1077,8 +1077,8 @@ gst_audioflinger_sink_prepare (GstAudioFlingerSink * audioflinger,
    * playing the same audio again.
    *
    * It seems the root cause is we create and release audio flinger sink in
-   * different thread in playbin2. Till now, I haven't found way to
-   * create/release device in the same thread. Fortunately, it will not effect
+   * different threads in playbin2. Till now, I haven't found way to
+   * create/release device in the same thread. Fortunately, it will not affect
    * the gst-launch usage 
    */
   if (audioflinger_device_set (audioflinger->audioflinger_device,
