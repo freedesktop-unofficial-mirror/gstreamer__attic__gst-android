@@ -265,11 +265,10 @@ audioflinger_device_mute (AudioFlingerDeviceHandle handle, int mute)
   if (handle == NULL || AUDIO_FLINGER_DEVICE (handle)->init == false)
     return;
 
-  LOGD ("handle : %p Mute Device\n", handle);
-
   if (AUDIO_FLINGER_DEVICE (handle)->audio_sink_specified) {
     // do nothing here, because the volume/mute is set in media service layer
   } else if (AUDIO_FLINGER_DEVICE_TRACK (handle)) {
+    LOGD ("handle : %p Mute Device\n", handle);
     AUDIO_FLINGER_DEVICE_TRACK (handle)->mute ((bool) mute);
   }
 }
@@ -297,12 +296,11 @@ audioflinger_device_set_volume (AudioFlingerDeviceHandle handle, float left,
   if (handle == NULL || AUDIO_FLINGER_DEVICE (handle)->init == false)
     return;
 
-  LOGD ("handle : %p Set volume Device %f,%f\n", handle, left, right);
-
   if (AUDIO_FLINGER_DEVICE (handle)->audio_sink_specified) {
     // do nothing here, because the volume/mute is set in media service layer
     return;
   } else if (AUDIO_FLINGER_DEVICE_TRACK (handle)) {
+    LOGD ("handle : %p Set volume Device %f,%f\n", handle, left, right);
     AUDIO_FLINGER_DEVICE_TRACK (handle)->setVolume (left, right);
   }
 }
