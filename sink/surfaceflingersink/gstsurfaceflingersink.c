@@ -157,11 +157,14 @@ gst_surfaceflinger_sink_setcaps (GstBaseSink * bsink, GstCaps * vscapslist)
       surfacesink->width, surfacesink->height, surfacesink->pixel_format);
 
   /* register frame buffer */
-  videoflinger_device_register_framebuffers (surfacesink->videodev,
-      surfacesink->width, surfacesink->height, surfacesink->pixel_format);
+  if (videoflinger_device_register_framebuffers (surfacesink->videodev,
+      surfacesink->width, surfacesink->height, surfacesink->pixel_format)
+      != -1)
+    return TRUE;
 
-  GST_DEBUG_OBJECT (surfacesink, "gst_surfaceflinger_sink_setcaps return true");
-  return TRUE;
+  GST_ERROR_OBJECT (surfacesink,
+      "Unable to register framebuffer device with given caps");
+  return FALSE;
 }
 
 
