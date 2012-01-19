@@ -73,7 +73,7 @@ static GstCaps *gst_surfaceflinger_sink_getcaps (GstBaseSink * bsink);
 
 static GstVideoSinkClass *parent_class = NULL;
 
-/* TODO: support more pixel form in the future */
+/* TODO: Add support for other pixel formats */
 #define GST_SURFACE_TEMPLATE_CAPS GST_VIDEO_CAPS_RGB_16
 
 static void
@@ -234,7 +234,7 @@ gst_surfaceflinger_sink_set_property (GObject * object, guint prop_id,
   switch (prop_id) {
     case PROP_SURFACE:
       surfacesink->isurface = g_value_get_pointer (value);
-      GST_DEBUG_OBJECT (surfacesink, "set property: ISureface = %p",
+      GST_DEBUG_OBJECT (surfacesink, "set property: ISurface = %p",
           surfacesink->isurface);
       break;
 
@@ -256,7 +256,7 @@ gst_surfaceflinger_sink_get_property (GObject * object, guint prop_id,
   switch (prop_id) {
     case PROP_SURFACE:
       g_value_set_pointer (value, surfacesink->isurface);
-      GST_DEBUG_OBJECT (surfacesink, "get property: ISurface = %p.",
+      GST_DEBUG_OBJECT (surfacesink, "get property: ISurface = %p",
           surfacesink->isurface);
       break;
 

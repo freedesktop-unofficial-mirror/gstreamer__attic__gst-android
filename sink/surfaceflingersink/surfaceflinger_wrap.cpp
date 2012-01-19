@@ -51,8 +51,8 @@ static int videoflinger_device_create_new_surface (VideoFlingerDevice *
 
 /* 
  * The only purpose of class "MediaPlayer" is to call Surface::getISurface()
- * in frameworks/base/include/ui/Surface.h, which is private function and accessed
- * by friend class MediaPlayer.
+ * in frameworks/base/include/ui/Surface.h, which is private function and
+ * accessed by friend class MediaPlayer.
  *
  * We define a fake one to cheat compiler
  */
@@ -107,8 +107,8 @@ videoflinger_device_create_new_surface (VideoFlingerDevice * videodev)
   GST_INFO ("Enter\n");
 
   /* Create a new Surface object with 320x240
-   * TODO: Create surface according to device's screen size and rotate it
-   * 90, but not a pre-defined value.
+   * FIXME: Create surface according to device's screen size and rotate it
+   * 90 without using a pre-defined size.
    */
   sp < SurfaceComposerClient > videoClient = new SurfaceComposerClient;
   if (videoClient.get () == NULL) {
@@ -116,7 +116,7 @@ videoflinger_device_create_new_surface (VideoFlingerDevice * videodev)
     return -1;
   }
 
-  /* release privious surface */
+  /* release previous surface */
   videodev->surface.clear ();
   videodev->isurface.clear ();
 
@@ -136,8 +136,8 @@ videoflinger_device_create_new_surface (VideoFlingerDevice * videodev)
 
   videoClient->openTransaction ();
 
-  /* set Surface toppest z-order, this will bypass all isurface created 
-   * in java side and make sure this surface displaied in toppest */
+  /* Set Surface toppest z-order. This will bypass all ISurface created 
+   * in java side and make sure this surface is displayed above all */
   state = videodev->surface->setLayer (INT_MAX);
   if (state != NO_ERROR) {
     GST_INFO ("videoSurface->setLayer(), state = %d", state);
@@ -147,13 +147,6 @@ videoflinger_device_create_new_surface (VideoFlingerDevice * videodev)
 
   /* show surface */
   state = videodev->surface->show ();
-  /*state =  videodev->surface->setLayer(INT_MAX);
-     if (state != NO_ERROR)
-     {
-     GST_INFO("videoSurface->show(), state = %d", state);
-     videodev->surface.clear();
-     return -1;
-     } */
 
   /* get ISurface interface */
   videodev->isurface =
@@ -162,7 +155,7 @@ videoflinger_device_create_new_surface (VideoFlingerDevice * videodev)
   videoClient->closeTransaction ();
 
   /* Smart pointer videoClient shall be deleted automatically
-   * when function exists
+   * when function exits
    */
   GST_INFO ("Leave\n");
   return 0;
@@ -205,7 +198,7 @@ videoflinger_device_register_framebuffers (VideoFlingerDeviceHandle handle,
   }
 
   /* TODO: Now, only PIXEL_FORMAT_RGB_565 is supported. Change here to support
-   * more pixel type
+   * other pixel formats 
    */
   if (format != VIDEO_FLINGER_RGB_565) {
     GST_ERROR ("Unsupport format: %d", format);
