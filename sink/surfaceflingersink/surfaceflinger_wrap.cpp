@@ -121,7 +121,7 @@ videoflinger_device_create_new_surface (VideoFlingerDevice * videodev)
   videodev->isurface.clear ();
 
   int width = (videodev->width) > 320 ? 320 : videodev->width;
-  int height = (videodev->height) > 320 ? 320 : videodev->height;
+  int height = (videodev->height) > 240 ? 240 : videodev->height;
 
   videodev->surface = videoClient->createSurface (pid,
       0,
