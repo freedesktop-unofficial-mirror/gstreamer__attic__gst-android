@@ -23,6 +23,11 @@
 #include <media/MediaPlayerInterface.h>
 #include <media/libmediaplayerservice/MediaPlayerService.h>
 #include "audioflinger_wrapper.h"
+
+#if __ANDROID_API__ > 13
+#include <system/audio.h>
+#endif
+
 //#include <GstLog.h>
 
 
@@ -115,7 +120,11 @@ audioflinger_device_set (AudioFlingerDeviceHandle handle,
   uint32_t channels = 0;
 #endif
 
+#ifdef ANDROID_AUDIO_CORE_H
+  int format = AUDIO_FORMAT_PCM_16_BIT;
+#else
   int format = AudioSystem::PCM_16_BIT;
+#endif
 
   if (handle == NULL)
     return -1;
@@ -130,10 +139,17 @@ audioflinger_device_set (AudioFlingerDeviceHandle handle,
 #else
     switch (channelCount) {
       case 1:
+#ifdef ANDROID_AUDIO_CORE_H
+        channels = AUDIO_CHANNEL_OUT_FRONT_LEFT;
+        break;
+      case 2:
+        channels = AUDIO_CHANNEL_OUT_STEREO;
+#else
         channels = AudioSystem::CHANNEL_OUT_FRONT_LEFT;
         break;
       case 2:
         channels = AudioSystem::CHANNEL_OUT_STEREO;
+#endif
         break;
       case 0:
       default:
