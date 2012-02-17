@@ -246,7 +246,7 @@ gst_android_audioringbuffer_open_device (GstRingBuffer * buf)
   if (result)
     return TRUE;
 
-  GST_DEBUG_OBJECT (sink, "could not open device");
+  GST_ERROR_OBJECT (sink, "could not open device");
   LOGE ("could not open device");
   return FALSE;
 }
@@ -263,7 +263,7 @@ gst_android_audioringbuffer_close_device (GstRingBuffer * buf)
   if (gst_audioflinger_sink_close (sink))
     return TRUE;
 
-  GST_DEBUG_OBJECT (sink, "could not close device");
+  GST_ERROR_OBJECT (sink, "could not close device");
   LOGE ("could not close device");
   return FALSE;
 }
@@ -281,7 +281,7 @@ gst_android_audioringbuffer_acquire (GstRingBuffer * buf,
   if (gst_audioflinger_sink_prepare (sink, spec))
     return TRUE;
 
-  GST_DEBUG_OBJECT (sink, "could not prepare device");
+  GST_ERROR_OBJECT (sink, "could not prepare device");
   LOGE ("could not close device");
   return FALSE;
 }
@@ -308,7 +308,7 @@ gst_android_audioringbuffer_release (GstRingBuffer * buf)
     return TRUE;
   }
 
-  GST_DEBUG_OBJECT (sink, "could not unprepare device");
+  GST_ERROR_OBJECT (sink, "could not unprepare device");
   LOGE ("could not unprepare device");
   return FALSE;
 }
@@ -323,7 +323,7 @@ gst_android_audioringbuffer_start (GstRingBuffer * buf)
   asink = GST_AUDIOFLINGERSINK (GST_OBJECT_PARENT (abuf));
 
   GST_INFO_OBJECT (buf, "starting ringbuffer");
-  LOGD ("starting ringbuffer");
+  LOGI ("starting ringbuffer");
 
   audioflinger_device_start (asink->audioflinger_device);
 
@@ -340,7 +340,7 @@ gst_android_audioringbuffer_pause (GstRingBuffer * buf)
   asink = GST_AUDIOFLINGERSINK (GST_OBJECT_PARENT (abuf));
 
   GST_INFO_OBJECT (buf, "pausing ringbuffer");
-  LOGD ("pausing ringbuffer");
+  LOGI ("pausing ringbuffer");
 
   audioflinger_device_pause (asink->audioflinger_device);
 
@@ -357,7 +357,7 @@ gst_android_audioringbuffer_stop (GstRingBuffer * buf)
   asink = GST_AUDIOFLINGERSINK (GST_OBJECT_PARENT (abuf));
 
   GST_INFO_OBJECT (buf, "stopping ringbuffer");
-  LOGD ("stopping ringbuffer");
+  LOGI ("stopping ringbuffer");
 
   audioflinger_device_stop (asink->audioflinger_device);
 
@@ -520,7 +520,7 @@ gst_android_audioringbuffer_commit (GstRingBuffer * buf, guint64 * sample,
     if (G_UNLIKELY (g_atomic_int_get (&buf->abidata.ABI.may_start) == FALSE))
       goto no_start;
 
-    GST_INFO_OBJECT (buf, "start!");
+    GST_DEBUG_OBJECT (buf, "start!");
     LOGD ("start!");
     if (!gst_ring_buffer_start (buf))
       goto start_failed;
@@ -671,13 +671,13 @@ done:
   /* ERRORS */
 no_start:
   {
-    GST_LOG_OBJECT (asink, "we can not start");
+    GST_ERROR_OBJECT (asink, "we can not start");
     LOGE ("we can not start");
     return 0;
   }
 start_failed:
   {
-    GST_LOG_OBJECT (asink, "failed to start the ringbuffer");
+    GST_ERROR_OBJECT (asink, "failed to start the ringbuffer");
     LOGE ("failed to start the ringbuffer");
     return 0;
   }
