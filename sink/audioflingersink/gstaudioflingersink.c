@@ -255,15 +255,12 @@ static gboolean
 gst_android_audioringbuffer_close_device (GstRingBuffer * buf)
 {
   GstAudioFlingerSink *sink;
-  gboolean result = TRUE;
 
   LOGD (">gst_android_audioringbuffer_close_device");
 
   sink = GST_AUDIOFLINGERSINK (GST_OBJECT_PARENT (buf));
 
-  result = gst_audioflinger_sink_close (sink);
-
-  if (result)
+  if (gst_audioflinger_sink_close (sink))
     return TRUE;
 
   GST_DEBUG_OBJECT (sink, "could not close device");
@@ -276,15 +273,12 @@ gst_android_audioringbuffer_acquire (GstRingBuffer * buf,
     GstRingBufferSpec * spec)
 {
   GstAudioFlingerSink *sink;
-  gboolean result = FALSE;
 
   LOGD (">gst_android_audioringbuffer_acquire");
 
   sink = GST_AUDIOFLINGERSINK (GST_OBJECT_PARENT (buf));
 
-  result = gst_audioflinger_sink_prepare (sink, spec);
-
-  if (result)
+  if (gst_audioflinger_sink_prepare (sink, spec))
     return TRUE;
 
   GST_DEBUG_OBJECT (sink, "could not prepare device");
@@ -304,14 +298,12 @@ static gboolean
 gst_android_audioringbuffer_release (GstRingBuffer * buf)
 {
   GstAudioFlingerSink *sink;
-  gboolean result = FALSE;
+
   LOGD (">gst_android_audioringbuffer_release");
 
   sink = GST_AUDIOFLINGERSINK (GST_OBJECT_PARENT (buf));
 
-  result = gst_audioflinger_sink_unprepare (sink);
-
-  if (result) {
+  if (gst_audioflinger_sink_unprepare (sink)) {
     GST_DEBUG_OBJECT (sink, "unprepared");
     return TRUE;
   }
