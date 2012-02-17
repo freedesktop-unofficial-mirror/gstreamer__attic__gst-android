@@ -49,7 +49,7 @@ typedef struct _AudioFlingerDevice
 } AudioFlingerDevice;
 
 
-/* commonly used macro */
+/* commonly used macros */
 #define AUDIO_FLINGER_DEVICE(handle) ((AudioFlingerDevice*)handle)
 #define AUDIO_FLINGER_DEVICE_TRACK(handle) \
     (AUDIO_FLINGER_DEVICE(handle)->audio_track)
@@ -66,13 +66,13 @@ audioflinger_device_create ()
   // create a new instance of AudioFlinger 
   audiodev = new AudioFlingerDevice;
   if (audiodev == NULL) {
-    LOGE ("Error to create AudioFlingerDevice\n");
+    LOGE ("Error creating AudioFlingerDevice\n");
     return NULL;
   }
   // create AudioTrack
   audiotr = new AudioTrack ();
   if (audiotr == NULL) {
-    LOGE ("Error to create AudioTrack\n");
+    LOGE ("Error creating AudioTrack\n");
     return NULL;
   }
 
@@ -80,7 +80,7 @@ audioflinger_device_create ()
   audiodev->audio_track = (AudioTrack *) audiotr;
   audiodev->audio_sink = 0;
   audiodev->audio_sink_specified = false;
-  LOGD ("Create AudioTrack successfully %p\n", audiodev);
+  LOGD ("AudioTrack created successfully %p\n", audiodev);
 
   return (AudioFlingerDeviceHandle) audiodev;
 }
@@ -97,7 +97,7 @@ audioflinger_device_open (void *audio_sink)
   // create a new instance of AudioFlinger 
   audiodev = new AudioFlingerDevice;
   if (audiodev == NULL) {
-    LOGE ("Error to create AudioFlingerDevice\n");
+    LOGE ("Error creating AudioFlingerDevice\n");
     return NULL;
   }
   // set AudioSink

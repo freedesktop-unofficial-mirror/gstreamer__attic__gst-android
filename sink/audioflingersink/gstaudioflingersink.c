@@ -652,8 +652,8 @@ gst_android_audioringbuffer_commit (GstRingBuffer * buf, guint64 * sample,
         *toprocess -= written / bps;
         data += written;
       } else {
-        LOGE ("Error to write buffer(error=%d)", written);
-        GST_LOG_OBJECT (asink, "Error to write buffer(error=%d)", written);
+        LOGE ("Error writing buffer(error=%d)", written);
+        GST_LOG_OBJECT (asink, "Error writing buffer(error=%d)", written);
         goto done;
       }
     }
@@ -995,9 +995,9 @@ gst_audioflinger_sink_open (GstAudioFlingerSink * audioflinger)
       if (!(audioflinger->audioflinger_device =
               audioflinger_device_open (audioflinger->m_audiosink)))
         goto failed_creation;
-      GST_DEBUG_OBJECT (audioflinger, "open an existed flinger, %p",
+      GST_DEBUG_OBJECT (audioflinger, "open an existing flinger, %p",
           audioflinger->audioflinger_device);
-      LOGD ("open an existed flinger, %p", audioflinger->audioflinger_device);
+      LOGD ("open an existing flinger, %p", audioflinger->audioflinger_device);
     } else {
       if (!(audioflinger->audioflinger_device = audioflinger_device_create ()))
         goto failed_creation;
