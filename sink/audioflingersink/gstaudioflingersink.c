@@ -243,17 +243,12 @@ gst_android_audioringbuffer_open_device (GstRingBuffer * buf)
   result = gst_audioflinger_sink_open (sink);
   GST_INFO_OBJECT (sink, "open device result %d", result);
 
-  if (!result)
-    goto could_not_open;
+  if (result)
+    return TRUE;
 
-  return result;
-
-could_not_open:
-  {
-    GST_DEBUG_OBJECT (sink, "could not open device");
-    LOGE ("could not open device");
-    return FALSE;
-  }
+  GST_DEBUG_OBJECT (sink, "could not open device");
+  LOGE ("could not open device");
+  return FALSE;
 }
 
 static gboolean
@@ -268,17 +263,12 @@ gst_android_audioringbuffer_close_device (GstRingBuffer * buf)
 
   result = gst_audioflinger_sink_close (sink);
 
-  if (!result)
-    goto could_not_close;
+  if (result)
+    return TRUE;
 
-  return result;
-
-could_not_close:
-  {
-    GST_DEBUG_OBJECT (sink, "could not close device");
-    LOGE ("could not close device");
-    return FALSE;
-  }
+  GST_DEBUG_OBJECT (sink, "could not close device");
+  LOGE ("could not close device");
+  return FALSE;
 }
 
 static gboolean
@@ -294,18 +284,12 @@ gst_android_audioringbuffer_acquire (GstRingBuffer * buf,
 
   result = gst_audioflinger_sink_prepare (sink, spec);
 
-  if (!result)
-    goto could_not_prepare;
+  if (result)
+    return TRUE;
 
-  return TRUE;
-
-  /* ERRORS */
-could_not_prepare:
-  {
-    GST_DEBUG_OBJECT (sink, "could not prepare device");
-    LOGE ("could not close device");
-    return FALSE;
-  }
+  GST_DEBUG_OBJECT (sink, "could not prepare device");
+  LOGE ("could not close device");
+  return FALSE;
 }
 
 static gboolean
@@ -327,19 +311,14 @@ gst_android_audioringbuffer_release (GstRingBuffer * buf)
 
   result = gst_audioflinger_sink_unprepare (sink);
 
-  if (!result)
-    goto could_not_unprepare;
-
-  GST_DEBUG_OBJECT (sink, "unprepared");
-
-  return result;
-
-could_not_unprepare:
-  {
-    GST_DEBUG_OBJECT (sink, "could not unprepare device");
-    LOGE ("could not unprepare device");
-    return FALSE;
+  if (result) {
+    GST_DEBUG_OBJECT (sink, "unprepared");
+    return TRUE;
   }
+
+  GST_DEBUG_OBJECT (sink, "could not unprepare device");
+  LOGE ("could not unprepare device");
+  return FALSE;
 }
 
 static gboolean
@@ -1082,8 +1061,12 @@ gst_audioflinger_sink_prepare (GstAudioFlingerSink * audioflinger,
    * the gst-launch usage 
    */
   if (audioflinger_device_set (audioflinger->audioflinger_device,
-          3, spec->channels, spec->rate, spec->segsize) == -1)
-    goto failed_creation;
+          3, spec->channels, spec->rate, spec->segsize) == -1) {
+    GST_ELEMENT_ERROR (audioflinger, RESOURCE, SETTINGS, (NULL),
+        ("Failed to create AudioFlinger for format %d", spec->format));
+    LOGE ("Failed to create AudioFlinger for format %d", spec->format);
+    return FALSE;
+  }
 
   audioflinger->m_init = TRUE;
   spec->bytes_per_sample = (spec->width / 8) * spec->channels;
@@ -1114,15 +1097,6 @@ gst_audioflinger_sink_prepare (GstAudioFlingerSink * audioflinger,
 #endif
 
   return TRUE;
-
-  /* ERRORS */
-failed_creation:
-  {
-    GST_ELEMENT_ERROR (audioflinger, RESOURCE, SETTINGS, (NULL),
-        ("Failed to create AudioFlinger for format %d", spec->format));
-    LOGE ("Failed to create AudioFlinger for format %d", spec->format);
-    return FALSE;
-  }
 }
 
 static gboolean
