@@ -282,7 +282,7 @@ gst_android_audioringbuffer_acquire (GstRingBuffer * buf,
     return TRUE;
 
   GST_ERROR_OBJECT (sink, "could not prepare device");
-  LOGE ("could not close device");
+  LOGE ("could not prepare device");
   return FALSE;
 }
 
