@@ -1,6 +1,8 @@
 /* GStreamer
  * Copyright (C) <2009> Prajnashi S <prajnashi@gmail.com>
- * Copyright (C) <2011> Alessandro Decina <alessandro.decina@collabora.co.uk>
+ * Copyright (C) <2010-2012> Collabora Ltd.
+ *  @author: Alessandro Decina <alessandro.decina@collabora.com>
+ *  @author: Reynaldo H. Verdejo Pinochet <reynaldo.verdejo@collabora.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -713,7 +715,8 @@ gst_audioflinger_sink_base_init (gpointer g_class)
       "Sink/Audio",
       "Output to android's Audioflinger service",
       "Prajnashi S <prajnashi@gmail.com>, "
-      "Alessandro Decina <alessandro.decina@collabora.co.uk>");
+      "Alessandro Decina <alessandro.decina@collabora.com>, "
+      "Reynaldo H. Verdejo Pinochet <reynaldo.verdejo@collabora.com>");
 
   gst_element_class_add_pad_template (element_class,
       gst_static_pad_template_get (&audioflingersink_sink_factory));

@@ -1,5 +1,8 @@
 /* GStreamer
  * Copyright (C) <2009> Prajnashi S <prajnashi@gmail.com>
+ * Copyright (C) <2010-2012> Collabora Ltd.
+ *  @author: Alessandro Decina <alessandro.decina@collabora.com>
+ *  @author: Reynaldo H. Verdejo Pinochet <reynaldo.verdejo@collabora.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public

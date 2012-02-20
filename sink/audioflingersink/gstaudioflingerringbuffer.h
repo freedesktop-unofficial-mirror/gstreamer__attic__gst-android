@@ -1,5 +1,6 @@
 /* GStreamer
- * Copyright (C) 2010 Alessandro Decina <alessandro.decina@collabora.co.uk>
+ * Copyright (C) <2010-2012> Collabora Ltd.
+ *  @author: Alessandro Decina <alessandro.decina@collabora.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
